@@ -1,0 +1,35 @@
+language: go
+
+sudo: false
+
+go:
+  - 1.5
+  - tip
+
+matrix:
+  allow_failures:
+    - go: tip
+
+install:
+  - go get -t
+
+before_script:
+  - git clone --depth 1 https://github.com/sstephenson/bats.git
+  - export PATH=$PATH:bats/bin
+
+before_deploy:
+  - go get github.com/mitchellh/gox
+  - mkdir -p release/
+  - cd release/
+  - gox -os "darwin linux" ../...
+  - for f in `ls`; do mv $f cacheout; tar -zcvf $f.tar.gz cacheout; rm cacheout; done
+
+deploy:
+  provider: releases
+  api_key:
+    secure: X+ln+EAa9OvDNsDdSygS4/bN6LLnspaCa1ZEyzke32amBa6u+bhR90mKAr/rKScM3O5eq/rCyzbcDgaKDJgqni/BD66dPnpHjQLchs68wKWwqj8oKfk4delgHlVI9fSVu8EzsWXlOo4pjjVI+1VsYaAtupPRApr+GAmJwbnJwhvl4UjQR0PWJm9hLDlV3i1phVCdwh5KyMnoakszFCdsfSzr37RxHPH9HEzzizbYd0JrMg/MQRCap9bfJ5U7cwq75kjcTp/M3XcThCXY2J7X1ruuLT6aXBfGluXOhVxlRUCgrae+MaGglDKzss+9zqTYpPh1s7pXDkuRPjCwa9PzLw+gP+VKrjA+b88Ncy1gTEDKMkotPuvnW/kC/7jBOyMWsffApR1KkCskGoK39tsi1wAQCPInMWm2q89hlIUYBQb3Cb9NDcZeojWD+KqLXxwtwXnSo6ZP4pPN6PSiC8sNULLZ7qUUO5gmBLaA48dLLjTO5RukWanWCuZ/e4DDS6AwRkcG/ozKqE9R6Ds20/66KBxCTRb/H3QhkErWA2fySZa5aawS/w4W6EWyQbKUzJcpJiftKA8G3g2Rtpt7aycOC5T0DWmYB2s9MxVXZbwmxSZTqS0VMfIVadIIcUqKiawYIQgP6nBoXNflI30Kk3lmNSzCycnzF/L7AjHZUmW6dbU=
+  file: plop*
+  file_glob: true
+  skip_cleanup: true
+  on:
+    repo: justincampbell/plop

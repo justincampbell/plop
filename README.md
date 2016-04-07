@@ -24,3 +24,7 @@ $ grep error /var/log/error.log | plop -t errors
 $ grep error /var/log/error.log | plop -d /var/log/
 /var/log/plop-UnmVhLi9
 ```
+
+## Other Implementations
+
+* **Bash**: [samrocketman/home](https://github.com/samrocketman/home/blob/master/bin/plop)

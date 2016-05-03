@@ -51,12 +51,12 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Printf("%s\n", file.Name())
+
 	_, err = io.Copy(file, os.Stdin)
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	fmt.Printf("%s\n", file.Name())
 }
 
 func isTTY(file *os.File) bool {

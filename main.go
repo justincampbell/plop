@@ -22,7 +22,7 @@ example:
   Fri Jan 29 12:10:25 EST 2016
 `
 
-const version = "v1.0.0"
+const version = "v1.1.0"
 
 var dir string
 var prefix string
